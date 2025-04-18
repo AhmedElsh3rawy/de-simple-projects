@@ -1,7 +1,6 @@
 # IMDB Top 5000 TV Shows
 
-
-## This is a simple project that just load the data from a CSV file into a *Postgres DB*
+This is a simple project that just load the data from a CSV file into a *Postgres DB*
 
 ## To start the project:
 
