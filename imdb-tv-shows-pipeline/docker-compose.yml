@@ -1,0 +1,41 @@
+version: "3"
+services:
+  postgres_db:
+    image: postgres:13
+    container_name: pg_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./tv_data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: imdb_tv_shows
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+
+    networks:
+      - ingest_network
+
+  pg_admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres_db
+    networks:
+      - ingest_network
+
+  ingestion_script:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres_db
+    networks:
+      - ingest_network
+
+networks:
+  ingest_network:
+    driver: bridge
